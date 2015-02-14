@@ -61,7 +61,7 @@ module Searchkick
       records.group_by{|r| document_type(r) }.each do |type, batch|
         client.bulk(
           index: name,
-          type: type,
+          type: type.split('/').last,
           body: batch.map{|r| {index: {_id: search_id(r), data: search_data(r)}} }
         )
       end
